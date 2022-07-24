@@ -7,24 +7,134 @@
     tools:context=".AddList"
     android:orientation="vertical">
 
-    <ImageView
+
+    <ImageButton
+        android:id="@+id/AddList_imageButton_upload"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/penguin"
-        android:layout_marginBottom="16dp">
+        app:srcCompat="@drawable/cat"
+        />
 
-    </ImageView>
-
-
-    <EditText
+    <LinearLayout
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="리스트 제목"/>
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="카테고리"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:paddingRight="20dp"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+            <CheckBox
+                android:id="@+id/AddList_checkBox_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="예금"/>
+            <CheckBox
+                android:id="@+id/AddList_checkBox_book"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="독서"/>
+            <CheckBox
+                android:id="@+id/AddList_checkBox_travel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="여행"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="진행상황"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:paddingRight="20dp"/>
+        <ProgressBar
+            android:id="@+id/AddList_progressBar_progress"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:progress="25"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="D-Day"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:paddingRight="20dp"/>
+        <RadioGroup
+            android:id="@+id/AddList_radioGroup_date"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <RadioButton
+                android:id="@+id/AddList_radioButton_yes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="있음"/>
+            <RadioButton
+                android:id="@+id/AddList_radioButton_no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="없음"/>
+        </RadioGroup>
+    </LinearLayout>
 
     <EditText
+        android:id="@+id/AddList_editText_list"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="버킷 리스트"/>
+
+    <EditText
+        android:id="@+id/AddList_editText_description"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="내용"
+        />
+
+    <Button
+        android:id="@+id/AddList_button_save"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="저장하기"
+        android:textSize="20dp"
         />
 
 
