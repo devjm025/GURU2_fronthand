@@ -19,7 +19,7 @@ class MenuActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
-        menuRecyclerView = findViewById(R.id.rv_menu)
+        menuRecyclerView = findViewById(R.id.Menu_RecyclerView_menu)
 
         val mAdapter = MenuAdapter(this, menuList)
         menuRecyclerView.adapter = mAdapter

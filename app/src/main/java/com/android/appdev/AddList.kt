@@ -1,8 +1,11 @@
 package com.android.appdev
 
+import android.Manifest
 import android.app.Activity
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -10,6 +13,8 @@ import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.widget.*
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import java.util.*
 
 class AddList : AppCompatActivity() {
@@ -21,7 +26,8 @@ class AddList : AppCompatActivity() {
     lateinit var checkbook : CheckBox
     lateinit var checktravel : CheckBox
 
-    lateinit var progress : ProgressBar
+    lateinit var seekbar : SeekBar
+    lateinit var tvprogress : TextView
     lateinit var radioGroupdate : RadioGroup
     lateinit var datetextView: TextView
     lateinit var editTextlist : EditText
@@ -43,7 +49,8 @@ class AddList : AppCompatActivity() {
         checkbook = findViewById(R.id.AddList_checkBox_book)
         checktravel = findViewById(R.id.AddList_checkBox_travel)
 
-        progress = findViewById(R.id.AddList_progressBar_progress)
+        seekbar = findViewById(R.id.AddList_SeekBar_progress)
+        tvprogress = findViewById(R.id.AddList_textView_progress)
         radioGroupdate = findViewById(R.id.AddList_radioGroup_date)
         datetextView = findViewById(R.id.AddList_textView_date)
         editTextlist = findViewById(R.id.AddList_editText_list)
@@ -52,10 +59,29 @@ class AddList : AppCompatActivity() {
 
         var dateString =""
 
+        //저장할 이미지 불러오기
         imagebtn.setOnClickListener {
-            openGalley()
+            if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
+                if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)){
+                    var dlg = AlertDialog.Builder(this)
+                    dlg.setTitle("권한이 필요한 이유")
+                    dlg.setMessage("사진 정보를 얻기 위해서는 외부 저장소 권한이 필수로 필요합니다.")
+                    dlg.setPositiveButton("확인"){dialog,which->ActivityCompat.requestPermissions(this@AddList,
+                    arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                        1000)}
+                    dlg.setNegativeButton("취소",null)
+                    dlg.show()
+                }else{
+                    ActivityCompat.requestPermissions(this,
+                    arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),1000)
+                }
+            }
+            else{
+                openGalley()
+            }
         }
 
+        //카테고리 정하기
         var category : Int
 
         var listener = CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
@@ -68,6 +94,21 @@ class AddList : AppCompatActivity() {
             }
         }
 
+        //진행상황
+        seekbar.setOnSeekBarChangeListener(object  : SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                tvprogress.text = progress.toString() + "%"
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+            }
+
+        })
+
+        //D-Day 정하기
         radioGroupdate.setOnCheckedChangeListener { radioGroup, checkedId ->
             when(checkedId){
                 R.id.AddList_radioButton_yes ->  {
@@ -91,6 +132,7 @@ class AddList : AppCompatActivity() {
 
     }
 
+    //갤러리에 접근하여 이미지 가져오는 함수
     private fun openGalley(){
         val intent : Intent = Intent(Intent.ACTION_GET_CONTENT)
         intent.setType("image/*")
