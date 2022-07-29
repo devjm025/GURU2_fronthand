@@ -17,11 +17,5 @@
         android:layout_marginBottom="30dp"
         android:src="@drawable/title_images" />
 
-    <Button
-        android:id="@+id/Title_btn_Startbtn"
-        android:layout_width="300dp"
-        android:layout_gravity="center"
-        android:layout_height="wrap_content"
-        android:text="Start" />
 
 </LinearLayout>
