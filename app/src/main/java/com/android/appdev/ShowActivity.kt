@@ -1,10 +1,13 @@
 package com.android.appdev
 
+import android.database.sqlite.SQLiteDatabase
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 
 class ShowActivity : AppCompatActivity() {
+    lateinit var dbManager: DBManager
+    lateinit var sqlitedb : SQLiteDatabase
 
     lateinit var btnsave : Button
     lateinit var btndelete : Button

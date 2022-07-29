@@ -10,7 +10,14 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 
 class MenuAdapter(private val context: Context, private val menuList: ArrayList<MenuData>) : RecyclerView.Adapter<MenuAdapter.CustomViewHolder>(){
+    interface ItemClickListener{
+        fun onClick(view: View, position: Int)
+    }
+    private lateinit var itemClickListener: ItemClickListener
 
+    fun setItemClickListener(itemClickListener: ItemClickListener){
+        this.itemClickListener = itemClickListener
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MenuAdapter.CustomViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_menu,parent,false)
@@ -22,6 +29,10 @@ class MenuAdapter(private val context: Context, private val menuList: ArrayList<
     override fun onBindViewHolder(holder: MenuAdapter.CustomViewHolder, position: Int) {
         holder.bind(menuList[position],context)
 
+        holder.itemView.setOnClickListener {
+           itemClickListener.onClick(it,position)
+        }
+
     }
 
     class CustomViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
@@ -31,23 +42,6 @@ class MenuAdapter(private val context: Context, private val menuList: ArrayList<
             menutitle.text = menuData.menulist
         }
 
-        init{
-            itemView.setOnClickListener {
-                if(menutitle.equals("버킷리스트 추가하기")){
-                    val intent = Intent(itemView.context,AddList::class.java)
-                    ContextCompat.startActivity(itemView.context,intent,null)
-                }else if(menutitle.equals("버킷리스트 삭제하기")){
-                    val intent = Intent(itemView.context,ShowActivity::class.java)
-                    ContextCompat.startActivity(itemView.context,intent,null)
-                }else if(menutitle.equals("메인으로 돌아가기")){
-                    val intent = Intent(itemView.context,ListActivity::class.java)
-                    ContextCompat.startActivity(itemView.context,intent,null)
-                }else if(menutitle.equals("로그아웃")){
-                    val intent = Intent(itemView.context,ShowActivity::class.java)
-                    ContextCompat.startActivity(itemView.context,intent,null)
-                }
-            }
-        }
     }
 
 }
