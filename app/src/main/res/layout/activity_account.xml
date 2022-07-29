@@ -5,12 +5,19 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <ImageButton
+        android:layout_width="255dp"
+        android:layout_height="255dp"
+        android:layout_marginTop="30dp"
+        android:layout_gravity="center"
+        />
+
     <Button
         android:id="@+id/account_btn_LogIn"
         android:layout_width="301dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="450dp"
+        android:layout_marginTop="100dp"
         android:text="Log In"
         android:textSize="20sp" />
 
