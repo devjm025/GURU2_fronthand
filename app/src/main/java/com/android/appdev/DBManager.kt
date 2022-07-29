@@ -18,4 +18,5 @@ class DBManager (
         override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
 
         }
+
 }

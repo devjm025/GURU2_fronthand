@@ -34,7 +34,7 @@ class AddList : AppCompatActivity() {
     lateinit var radioGroupdate : RadioGroup
     lateinit var datetextView: TextView
     lateinit var editTextlist : EditText
-    lateinit var editTextdesc : EditText
+    lateinit var editTextinfo : EditText
 
     lateinit var saveButton : Button
 
@@ -54,7 +54,6 @@ class AddList : AppCompatActivity() {
             }
         }
     }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,7 +75,7 @@ class AddList : AppCompatActivity() {
         radioGroupdate = findViewById(R.id.AddList_radioGroup_date)
         datetextView = findViewById(R.id.AddList_textView_date)
         editTextlist = findViewById(R.id.AddList_editText_list)
-        editTextdesc = findViewById(R.id.AddList_editText_description)
+        editTextinfo = findViewById(R.id.AddList_editText_description)
         saveButton = findViewById(R.id.AddList_button_save)
 
         dbManager =  DBManager(this, "bucketlistDB",null,1)
@@ -141,7 +140,7 @@ class AddList : AppCompatActivity() {
         //저장하기
         saveButton.setOnClickListener {
             var str_title : String = editTextlist.text.toString()
-            var str_info : String = editTextdesc.text.toString()
+            var str_info : String = editTextinfo.text.toString()
 
             //DB에 넣기
             sqlitedb = dbManager.writableDatabase

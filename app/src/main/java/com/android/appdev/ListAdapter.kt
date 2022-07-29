@@ -1,6 +1,7 @@
 package com.android.appdev
 
 import android.content.Context
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,7 +25,6 @@ class ListAdapter (private val context: Context, private val listList: ArrayList
         holder.bind(listList[position],context)
 
     }
-
     class ListViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
         private val list_image = itemView.findViewById<ImageView>(R.id.List_item_image)
         private val list_title = itemView.findViewById<TextView>(R.id.List_item_title)
@@ -32,11 +32,10 @@ class ListAdapter (private val context: Context, private val listList: ArrayList
         private val list_progress = itemView.findViewById<TextView>(R.id.List_item_progresstv)
 
         fun bind(listData: ListData, context: Context){
-            list_title.text = listData.listtitle.text
-            list_progressbar.progress = listData.listprogress.progress
-            list_progress.text = listData.listprogresstv.text
-
+            list_image.setImageURI(listData.listimage)
+            list_title.text = listData.listtitle
+            list_progressbar.progress = listData.listprogress
+            list_progress.text = listData.listprogresstv + "%"
         }
     }
-
 }
