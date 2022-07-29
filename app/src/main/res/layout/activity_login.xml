@@ -9,10 +9,12 @@
 
 
     <ImageView
+        android:id="@+id/login_imgView_settings"
         android:layout_width="255dp"
         android:layout_height="255dp"
-        android:layout_gravity="center"/>
-
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        app:srcCompat="@drawable/cat"/>
 
 
     <Button
