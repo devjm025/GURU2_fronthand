@@ -6,6 +6,7 @@ import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.database.sqlite.SQLiteDatabase
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -19,6 +20,8 @@ import java.util.*
 
 class AddList : AppCompatActivity() {
     private val OPEN_GALLERY = 1
+    lateinit var dbManager: DBManager
+    lateinit var sqlitedb : SQLiteDatabase
 
     lateinit var image : ImageView
     lateinit var imagebtn : Button
@@ -35,8 +38,23 @@ class AddList : AppCompatActivity() {
 
     lateinit var saveButton : Button
 
-    lateinit var title : String
-    lateinit var desc :String
+    var str_image : String = ""
+    var str_date : String =""
+    var int_progress : Int = 0
+
+    //checkbox listener 등록
+    var str_category : String = ""
+
+    var listener = CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
+        if(isChecked) {
+            when (buttonView.id) {
+                R.id.AddList_checkBox_money -> str_category = "money"
+                R.id.AddList_checkBox_book -> str_category = "book"
+                R.id.AddList_checkBox_travel -> str_category = "travel"
+            }
+        }
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +67,10 @@ class AddList : AppCompatActivity() {
         checkbook = findViewById(R.id.AddList_checkBox_book)
         checktravel = findViewById(R.id.AddList_checkBox_travel)
 
+        checkmoney.setOnCheckedChangeListener(listener)
+        checkbook.setOnCheckedChangeListener(listener)
+        checktravel.setOnCheckedChangeListener(listener)
+
         seekbar = findViewById(R.id.AddList_SeekBar_progress)
         tvprogress = findViewById(R.id.AddList_textView_progress)
         radioGroupdate = findViewById(R.id.AddList_radioGroup_date)
@@ -56,6 +78,8 @@ class AddList : AppCompatActivity() {
         editTextlist = findViewById(R.id.AddList_editText_list)
         editTextdesc = findViewById(R.id.AddList_editText_description)
         saveButton = findViewById(R.id.AddList_button_save)
+
+        dbManager =  DBManager(this, "bucketlistDB",null,1)
 
         var dateString =""
 
@@ -81,16 +105,21 @@ class AddList : AppCompatActivity() {
             }
         }
 
-        //카테고리 정하기
-        var category : Int
-
-        var listener = CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
-            if(isChecked) {
-                when (buttonView.id) {
-                    R.id.AddList_checkBox_money -> category = 0
-                    R.id.AddList_checkBox_book -> category = 1
-                    R.id.AddList_checkBox_travel -> category = 2
+        //D-Day 정하기
+        radioGroupdate.setOnCheckedChangeListener { radioGroup, checkedId ->
+            when(checkedId){
+                R.id.AddList_radioButton_yes ->  {
+                    datetextView.visibility = View.VISIBLE
+                    val cal = Calendar.getInstance()
+                    val dataSetListener = DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
+                        dateString = "${year}년 ${month+1}월 ${dayOfMonth}일"
+                        datetextView.text = dateString
+                        str_date = dateString
+                    }
+                    DatePickerDialog(this, dataSetListener,cal.get(Calendar.YEAR),cal.get(Calendar.MONTH),cal.get(Calendar.DAY_OF_MONTH)).show()
                 }
+
+                R.id.AddList_radioButton_no ->  datetextView.visibility = View.INVISIBLE
             }
         }
 
@@ -98,6 +127,7 @@ class AddList : AppCompatActivity() {
         seekbar.setOnSeekBarChangeListener(object  : SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 tvprogress.text = progress.toString() + "%"
+                int_progress = progress
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
@@ -108,33 +138,22 @@ class AddList : AppCompatActivity() {
 
         })
 
-        //D-Day 정하기
-        radioGroupdate.setOnCheckedChangeListener { radioGroup, checkedId ->
-            when(checkedId){
-                R.id.AddList_radioButton_yes ->  {
-                    datetextView.visibility = View.VISIBLE
-                    val cal = Calendar.getInstance()
-                    val dataSetListener = DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
-                        dateString = "${year}년 ${month+1}월 ${dayOfMonth}일"
-                        datetextView.text = dateString
-                    }
-                    DatePickerDialog(this, dataSetListener,cal.get(Calendar.YEAR),cal.get(Calendar.MONTH),cal.get(Calendar.DAY_OF_MONTH)).show()
-                }
-
-                R.id.AddList_radioButton_no ->  Toast.makeText(applicationContext, "사과", Toast.LENGTH_SHORT).show()
-            }
-        }
-
+        //저장하기
         saveButton.setOnClickListener {
-            title = editTextlist.text.toString()
-            desc = editTextlist.text.toString()
+            var str_title : String = editTextlist.text.toString()
+            var str_info : String = editTextdesc.text.toString()
+
+            //DB에 넣기
+            sqlitedb = dbManager.writableDatabase
+            sqlitedb.execSQL("INSERT INTO bucketlist VALUES ('"+ str_image+"','"+ str_category+"',"+int_progress+",'"+str_date+"','"+str_title+"', '"+str_info+"')")
+            sqlitedb.close()
         }
 
     }
 
     //갤러리에 접근하여 이미지 가져오는 함수
     private fun openGalley(){
-        val intent : Intent = Intent(Intent.ACTION_GET_CONTENT)
+        val intent : Intent = Intent(Intent.ACTION_PICK)
         intent.setType("image/*")
         startActivityForResult(intent, OPEN_GALLERY)
     }
@@ -147,6 +166,7 @@ class AddList : AppCompatActivity() {
             if(requestCode == OPEN_GALLERY){
 
                 var currentImageUrl : Uri? = data?.data
+                str_image = currentImageUrl.toString()
 
                 try{
                     val bitmap = MediaStore.Images.Media.getBitmap(contentResolver,currentImageUrl)
