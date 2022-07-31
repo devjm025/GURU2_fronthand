@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/gradient"
     android:orientation="vertical">
 
     <androidx.viewpager.widget.ViewPager
@@ -27,7 +28,8 @@
         android:layout_gravity="center"
         android:layout_marginTop="100dp"
         android:text="Log In"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:backgroundTint="#EBC8B4"/>
 
     <Button
         android:id="@+id/account_btn_SignUp"
@@ -35,6 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="Sign Up"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:backgroundTint="#F7CACA"/>
 
 </LinearLayout>

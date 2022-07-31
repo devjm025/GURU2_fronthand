@@ -9,4 +9,15 @@
     <color name="white">#FFFFFFFF</color>
     <color name="kakaoyellow">#F9E000</color>
     <color name="facebookblue">#3B5998</color>
+    <color name="appButton1">#FFB6B9</color>
+    <color name="appButton2">#FAE3D9</color>
+    <color name="appButton3">#BBDED6</color>
+    <color name="appButton4">#61C0BF</color>
+    <color name="appButton5">#1F4690</color>
+    <color name="appButton6">#E8AA42</color>
+    <color name="pcolor1">#6667AB</color>
+    <color name="pcolor2">#FF6F61</color>
+    <color name="pcolor3">#ECE6CC</color>
+    <color name="pcolor4">#0F4C81</color>
+    <color name="pcolor5">#F7CACA</color>
 </resources>

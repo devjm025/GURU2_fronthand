@@ -8,9 +8,11 @@
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="300dp"
         android:scaleType="fitXY"
         android:src="@drawable/cat"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
