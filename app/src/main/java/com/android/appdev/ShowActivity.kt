@@ -96,10 +96,13 @@ class ShowActivity : AppCompatActivity() {
         Glide.with(image).load(Uri.parse(blist!![0].image)).into(image) //이미지
         str_image = blist!![0].image.toString()
         TextViewlist.text = blist!![0].title // title
+        str_title = blist!![0].title.toString()
         editTextinfo.hint = blist!![0].info //info
+        str_info = blist!![0].info.toString()
 
         tvprogress.text = blist!![0].progress.toString() + "%" //progress
         seekbar.progress = blist!![0].progress!!
+        int_progress = blist!![0].progress!!.toInt()
 
         //category
         if(blist!![0].category.equals("book")){
@@ -109,6 +112,8 @@ class ShowActivity : AppCompatActivity() {
         }else if (blist!![0].category.equals("travel")){
             travel.setChecked(true)
         }
+
+        category = blist!![0].category.toString()
 
         RGBcategory.setOnCheckedChangeListener { radioGroup, checkedId ->
             when(checkedId){
@@ -140,6 +145,8 @@ class ShowActivity : AppCompatActivity() {
         }else{
             radioButton_yes.setChecked(true)
         }
+        str_date = blist!![0].Dday.toString()
+
         radioGroupdate.setOnCheckedChangeListener { radioGroup, checkedId ->
             when(checkedId){
                 R.id.Show_radioButton_yes ->  {
