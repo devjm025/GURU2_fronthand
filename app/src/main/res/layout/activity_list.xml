@@ -23,6 +23,14 @@
         app:tint="@color/white"/>
 
 
+    <SearchView
+        android:layout_width="297dp"
+        android:layout_height="41dp"
+        tools:layout_editor_absoluteX="92dp"
+        tools:layout_editor_absoluteY="24dp"
+        tools:ignore="MissingConstraints"
+        android:background="@drawable/rectangle"
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/List_RecyclerView_list"
