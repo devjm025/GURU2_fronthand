@@ -16,7 +16,8 @@ class MenuActivity : AppCompatActivity() {
     var menuList = arrayListOf<MenuData>(
         MenuData("버킷리스트 추가하기",0),
         MenuData("메인으로 돌아가기",1),
-        MenuData("로그아웃",1)
+        MenuData("로그아웃",2),
+        MenuData("마이페이지로 돌아가기",3)
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,7 +37,10 @@ class MenuActivity : AppCompatActivity() {
                     val intent = Intent(this@MenuActivity,ListActivity::class.java)
                     ContextCompat.startActivity(this@MenuActivity,intent,null)
                 }else if(position == 2){
-                    val intent = Intent(this@MenuActivity,ShowActivity::class.java)
+                    val intent = Intent(this@MenuActivity,MainActivity::class.java)
+                    ContextCompat.startActivity(this@MenuActivity,intent,null)
+                }else if(position == 3){
+                    val intent = Intent(this@MenuActivity,MyPage::class.java)
                     ContextCompat.startActivity(this@MenuActivity,intent,null)
                 }
             }

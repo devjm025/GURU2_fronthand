@@ -30,7 +30,7 @@ class MenuAdapter(private val context: Context, private val menuList: ArrayList<
         holder.bind(menuList[position],context)
 
         holder.itemView.setOnClickListener {
-           itemClickListener.onClick(it,position)
+            itemClickListener.onClick(it,position)
         }
 
     }

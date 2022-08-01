@@ -19,15 +19,17 @@ import androidx.core.content.ContextCompat
 import java.util.*
 
 class AddList : AppCompatActivity() {
+
+    private var adapter : ListAdapter? = null
+    private var db: BucketListDataBase?=null
+
     private val OPEN_GALLERY = 1
     lateinit var dbManager: DBManager
-    lateinit var sqlitedb : SQLiteDatabase
 
     lateinit var image : ImageView
     lateinit var imagebtn : Button
-    lateinit var checkmoney : CheckBox
-    lateinit var checkbook : CheckBox
-    lateinit var checktravel : CheckBox
+
+    lateinit var RGBcategory: RadioGroup
 
     lateinit var seekbar : SeekBar
     lateinit var tvprogress : TextView
@@ -39,21 +41,11 @@ class AddList : AppCompatActivity() {
     lateinit var saveButton : Button
 
     var str_image : String = ""
-    var str_date : String =""
+    var str_date : String ="0"
     var int_progress : Int = 0
 
     //checkbox listener 등록
-    var str_category : String = ""
-
-    var listener = CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
-        if(isChecked) {
-            when (buttonView.id) {
-                R.id.AddList_checkBox_money -> str_category = "money"
-                R.id.AddList_checkBox_book -> str_category = "book"
-                R.id.AddList_checkBox_travel -> str_category = "travel"
-            }
-        }
-    }
+    lateinit var category : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,13 +54,7 @@ class AddList : AppCompatActivity() {
         image = findViewById(R.id.AddList_imageView_upload)
         imagebtn = findViewById(R.id.AddList_button_upload)
 
-        checkmoney = findViewById(R.id.AddList_checkBox_money)
-        checkbook = findViewById(R.id.AddList_checkBox_book)
-        checktravel = findViewById(R.id.AddList_checkBox_travel)
-
-        checkmoney.setOnCheckedChangeListener(listener)
-        checkbook.setOnCheckedChangeListener(listener)
-        checktravel.setOnCheckedChangeListener(listener)
+        RGBcategory = findViewById(R.id.AddList_RG_category)
 
         seekbar = findViewById(R.id.AddList_SeekBar_progress)
         tvprogress = findViewById(R.id.AddList_textView_progress)
@@ -90,13 +76,13 @@ class AddList : AppCompatActivity() {
                     dlg.setTitle("권한이 필요한 이유")
                     dlg.setMessage("사진 정보를 얻기 위해서는 외부 저장소 권한이 필수로 필요합니다.")
                     dlg.setPositiveButton("확인"){dialog,which->ActivityCompat.requestPermissions(this@AddList,
-                    arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                        arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
                         1000)}
                     dlg.setNegativeButton("취소",null)
                     dlg.show()
                 }else{
                     ActivityCompat.requestPermissions(this,
-                    arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),1000)
+                        arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),1000)
                 }
             }
             else{
@@ -122,6 +108,15 @@ class AddList : AppCompatActivity() {
             }
         }
 
+        //category
+        RGBcategory.setOnCheckedChangeListener { radioGroup, checkedId ->
+            when(checkedId){
+                R.id.AddList_Rb_book ->  category = "book"
+                R.id.AddList_Rb_money ->  category = "money"
+                R.id.AddList_Rb_travel ->  category = "travel"
+            }
+        }
+
         //진행상황
         seekbar.setOnSeekBarChangeListener(object  : SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
@@ -137,15 +132,17 @@ class AddList : AppCompatActivity() {
 
         })
 
+        db= BucketListDataBase.getInstance(this)
         //저장하기
         saveButton.setOnClickListener {
             var str_title : String = editTextlist.text.toString()
             var str_info : String = editTextinfo.text.toString()
 
-            //DB에 넣기
-            sqlitedb = dbManager.writableDatabase
-            sqlitedb.execSQL("INSERT INTO bucketlist VALUES ('"+ str_image+"','"+ str_category+"',"+int_progress+",'"+str_date+"','"+str_title+"', '"+str_info+"')")
-            sqlitedb.close()
+            db!!.listDao().insert(BucketList(null,str_image,category,int_progress, str_date,str_title,str_info))
+
+
+            val intent = Intent(this@AddList,ListActivity::class.java)
+            ContextCompat.startActivity(this@AddList,intent,null)
         }
 
     }

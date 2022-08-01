@@ -1,41 +1,90 @@
 package com.android.appdev
 
 import android.content.Context
-import android.provider.MediaStore
+import android.content.Intent
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
-import androidx.core.content.ContextCompat
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import kotlinx.android.synthetic.main.item_list.view.*
 
-class ListAdapter (private val context: Context, private val listList: ArrayList<ListData>) : RecyclerView.Adapter<ListAdapter.ListViewHolder>(){
+class ListAdapter (val db : BucketListDataBase, var items:List<BucketList>?)
+    : RecyclerView.Adapter<ListAdapter.ListViewHolder>(){
+
+    //리스트 클릭 이벤트
+    interface ItemClickListener{
+        fun onClick(view: View, position: Int)
+    }
+    private lateinit var itemClickListener: ItemClickListener
+
+    fun setItemClickListener(itemClickListener: ItemClickListener){
+        this.itemClickListener = itemClickListener
+    }
+
+    lateinit var mContext: Context
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListAdapter.ListViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_list,parent,false)
+
+        mContext = parent.context
+
         return ListViewHolder(view)
     }
 
-    override fun getItemCount(): Int = listList.size
+    override fun getItemCount(): Int {
+        return items!!.size
+    }
 
-    override fun onBindViewHolder(holder: ListAdapter.ListViewHolder, position: Int) {
-        holder.bind(listList[position],context)
+    fun getItem() : List<BucketList>?{
+        return items
+    }
+
+    override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
+        holder.bind(items!!.get(position),position)
+
+        holder.itemView.setOnClickListener {
+            itemClickListener.onClick(it,position)
+        }
 
     }
-    class ListViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
+
+    inner class ListViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
+
+        var index : Int?=null
+
         private val list_image = itemView.findViewById<ImageView>(R.id.List_item_image)
         private val list_title = itemView.findViewById<TextView>(R.id.List_item_title)
         private val list_progressbar = itemView.findViewById<ProgressBar>(R.id.List_item_progressbar)
         private val list_progress = itemView.findViewById<TextView>(R.id.List_item_progresstv)
 
-        fun bind(listData: ListData, context: Context){
-            list_image.setImageURI(listData.listimage)
-            list_title.text = listData.listtitle
-            list_progressbar.progress = listData.listprogress
-            list_progress.text = listData.listprogresstv + "%"
+        fun bind(blist: BucketList, position: Int){
+            index = position
+            Glide.with(itemView).load(Uri.parse(blist.image)).into(itemView.List_item_image)
+            list_title.setText(blist.title)
+            list_progressbar.setProgress(blist.progress!!)
+            list_progress.setText(blist.progress.toString() + "%")
+
         }
+
+        fun editData(image : String, category: String, progress : Int, Dday : String, info : String){
+            Thread{
+                index?.let { items!!.get(it).image = image};
+                index?.let { items!!.get(it).progress = progress };
+                index?.let { items!!.get(it).Dday = Dday };
+                index?.let { items!!.get(it).info = info };
+
+                index?.let { items!!.get(it)}?.let { db.listDao().update(it)};
+
+            }.start()
+            Toast.makeText(mContext,"저장완료",Toast.LENGTH_SHORT).show()
+        }
+
     }
 }

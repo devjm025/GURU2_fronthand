@@ -8,14 +8,22 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.android.synthetic.main.item_list.view.*
 
 
 class ListActivity() : AppCompatActivity() {
-    lateinit var dbManager: DBManager
-    lateinit var sqlitedb : SQLiteDatabase
 
+    private var adapter: ListAdapter ?= null
+
+    private var db:BucketListDataBase ?= null
+
+    lateinit var rv_view : RecyclerView
     lateinit var menuFab: FloatingActionButton
+    lateinit var userFab: FloatingActionButton
     lateinit var addFab: FloatingActionButton
 
     @SuppressLint("Range")
@@ -25,6 +33,8 @@ class ListActivity() : AppCompatActivity() {
 
         menuFab = findViewById(R.id.List_fAB_menu)
         addFab = findViewById(R.id.List_fAB_Add)
+
+        rv_view = findViewById(R.id.List_RecyclerView_list)
 
         menuFab.setOnClickListener { v: View? ->
             val intent = Intent(this, MenuActivity::class.java)
@@ -36,23 +46,25 @@ class ListActivity() : AppCompatActivity() {
             startActivity(intent)
         }
 
-        dbManager = DBManager(this, "bucketlist",null,1)
-        sqlitedb = dbManager.readableDatabase
+        db = BucketListDataBase.getInstance(this)
+        rv_view.setHasFixedSize(true)
+        val layoutManager : RecyclerView.LayoutManager = LinearLayoutManager(this)
+        rv_view.layoutManager = layoutManager
 
-        var cursor : Cursor
-        cursor = sqlitedb.rawQuery("SELECT image, process, title FROM bucketlist;",null)
+        db!!.listDao().getAll().observe(this, androidx.lifecycle.Observer{
+            adapter = ListAdapter(db!!,it)
 
-        var num : Int = 0
-        while(cursor.moveToNext()){
-            val list = mutableListOf<ListData>()
-            var image_uri : Uri
-            var str_image = cursor.getString(cursor.getColumnIndex("image")).toString()
-            image_uri = Uri.parse(str_image)
-            var int_process = cursor.getInt(cursor.getColumnIndex("process"))
-            var str_title = cursor.getString(cursor.getColumnIndex("title")).toString()
-            var str_process = int_process.toString()
-            list.add(ListData(image_uri,str_title,int_process,str_process))
-        }
-        cursor.close()
+            rv_view.adapter = adapter
+
+            adapter!!.setItemClickListener(object : ListAdapter.ItemClickListener{
+                override fun onClick(view : View, position: Int){
+                    val intent = Intent(this@ListActivity,ShowActivity::class.java)
+                    intent.putExtra("title", view.List_item_title.text)
+                    startActivity(intent)
+                }
+            })
+        })
+
+
     }
 }
