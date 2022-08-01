@@ -17,6 +17,9 @@
         android:theme="@style/Theme.AppDev"
         tools:targetApi="31">
         <activity
+            android:name=".MyPage"
+            android:exported="false" />
+        <activity
             android:name=".Custom_google"
             android:exported="false" />
         <activity
