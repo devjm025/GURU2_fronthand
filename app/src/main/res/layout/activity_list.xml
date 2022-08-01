@@ -25,12 +25,13 @@
 
     <SearchView
         android:layout_width="297dp"
-        android:layout_height="41dp"
-        tools:layout_editor_absoluteX="92dp"
-        tools:layout_editor_absoluteY="24dp"
-        tools:ignore="MissingConstraints"
+        android:layout_height="55dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/rectangle"
-        />
+        app:layout_constraintBottom_toTopOf="@+id/List_RecyclerView_list"
+        app:layout_constraintStart_toEndOf="@+id/List_fAB_menu"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/List_RecyclerView_list"
