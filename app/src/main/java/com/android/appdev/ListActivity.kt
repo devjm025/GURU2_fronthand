@@ -16,7 +16,6 @@ class ListActivity() : AppCompatActivity() {
     lateinit var sqlitedb : SQLiteDatabase
 
     lateinit var menuFab: FloatingActionButton
-    lateinit var userFab: FloatingActionButton
     lateinit var addFab: FloatingActionButton
 
     @SuppressLint("Range")
