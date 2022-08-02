@@ -1,5 +1,6 @@
 package com.android.appdev
 
+import androidx.lifecycle.LiveData
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -27,4 +28,5 @@ data class BucketList (
 
     @ColumnInfo(name = "info")
     var info : String?
-        )
+
+    )

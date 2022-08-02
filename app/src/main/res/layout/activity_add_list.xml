@@ -20,7 +20,7 @@
             android:id="@+id/AddList_imageView_upload"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/cat"
+            app:srcCompat="@drawable/img_nothing"
             />
         <Button
             android:id="@+id/AddList_button_upload"

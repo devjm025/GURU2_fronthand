@@ -74,18 +74,5 @@ class ListAdapter (val db : BucketListDataBase, var items:List<BucketList>?)
 
         }
 
-        fun editData(image : String, category: String, progress : Int, Dday : String, info : String){
-            Thread{
-                index?.let { items!!.get(it).image = image};
-                index?.let { items!!.get(it).progress = progress };
-                index?.let { items!!.get(it).Dday = Dday };
-                index?.let { items!!.get(it).info = info };
-
-                index?.let { items!!.get(it)}?.let { db.listDao().update(it)};
-
-            }.start()
-            Toast.makeText(mContext,"저장완료",Toast.LENGTH_SHORT).show()
-        }
-
     }
 }

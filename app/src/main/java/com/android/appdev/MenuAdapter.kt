@@ -41,7 +41,6 @@ class MenuAdapter(private val context: Context, private val menuList: ArrayList<
         fun bind(menuData: MenuData, context: Context){
             menutitle.text = menuData.menulist
         }
-
     }
 
 }
