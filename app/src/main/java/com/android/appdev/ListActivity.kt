@@ -16,7 +16,6 @@ import kotlinx.android.synthetic.main.item_list.view.*
 class ListActivity() : AppCompatActivity() {
 
     private var adapter: ListAdapter ?= null
-
     private var db:BucketListDataBase ?= null
 
     lateinit var rv_view : RecyclerView
