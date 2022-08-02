@@ -23,9 +23,9 @@ class LoginActivity : AppCompatActivity() {
     private var auth: FirebaseAuth? = null
     private var googleSignInclient: GoogleSignInClient? = null
     private var GOOGLE_LOGIN_CODE = 9001
-    var signupButton: Button = findViewById(R.id.signup_btn_SignUp)
+    var signupButton: Button = findViewById(R.id.login_btn_SignUp)
     var loginButton: Button = findViewById((R.id.login_btn_LogIn))
-    var googleButton: Button = findViewById(R.id.SignIn_Button)
+    var googleButton: Button = findViewById(R.id.signInButton)
 
     var Emailtext: EditText = findViewById(R.id.login_edittext_Email)
     var Passwordtext: EditText = findViewById(R.id.login_edittext_Password)
