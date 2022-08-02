@@ -13,7 +13,16 @@
         android:layout_height="200dp"
         android:layout_gravity="center"
         android:layout_marginTop="180dp"
-        android:src="@drawable/title_star"/>
+        android:src="@drawable/title_star" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textColor="@color/pcolor6"
+        android:textSize="30dp"
+        android:text="별자리"
+        android:fontFamily="@font/binggrae_bold"/>
 
 
 </LinearLayout>

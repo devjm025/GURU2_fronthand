@@ -28,7 +28,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14dp"
-            android:text="갤러리에서 사진 가져오기"/>
+            android:text="갤러리에서 사진 가져오기"
+            android:fontFamily="@font/binggrae_bold"/>
 
     </LinearLayout>
 
@@ -46,7 +47,7 @@
             android:text="카테고리"
             android:textStyle="bold"
             android:gravity="center"
-            android:paddingRight="20dp"/>
+            android:paddingRight="20dp" />
 
         <RadioGroup
             android:id="@+id/AddList_RG_category"
@@ -168,7 +169,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="저장하기"
-        android:textSize="14dp"
+        android:textSize="20dp"
+        android:fontFamily="@font/binggrae_bold"
         />
 
 

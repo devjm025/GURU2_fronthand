@@ -27,7 +27,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="205dp"
-        android:text="Log In" />
+        android:text="로그인하기"
+        android:textSize="20dp"
+        android:fontFamily="@font/binggrae_bold"/>
 
 
 </LinearLayout>
