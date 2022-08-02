@@ -57,10 +57,7 @@ class LoginActivity : AppCompatActivity() {
             val signInIntent = googleSignInclient?.signInIntent
 
             startActivityForResult(signInIntent, GOOGLE_LOGIN_CODE)
-        }//이거 콜백 사용해야??register~~함수
-
-
-        //이거 에러 나요!
+        }
 
 
     }
