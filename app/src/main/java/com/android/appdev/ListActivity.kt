@@ -7,10 +7,12 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.item_list.view.*
+
 
 
 class ListActivity() : AppCompatActivity() {
@@ -48,7 +50,7 @@ class ListActivity() : AppCompatActivity() {
         val layoutManager : RecyclerView.LayoutManager = LinearLayoutManager(this)
         rv_view.layoutManager = layoutManager
 
-        db!!.listDao().getAll().observe(this, androidx.lifecycle.Observer{
+        db!!.listDao().getAll().observe(this, Observer{
             adapter = ListAdapter(db!!,it)
 
             rv_view.adapter = adapter

@@ -31,5 +31,9 @@
         android:textSize="20dp"
         android:fontFamily="@font/binggrae_bold"/>
 
-
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/signInButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
 </LinearLayout>
