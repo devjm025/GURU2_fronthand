@@ -24,13 +24,16 @@
 
 
     <SearchView
+        android:id="@+id/List_searchview_search"
         android:layout_width="297dp"
         android:layout_height="55dp"
+        android:layout_marginStart="12dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/rectangle"
         app:layout_constraintBottom_toTopOf="@+id/List_RecyclerView_list"
         app:layout_constraintStart_toEndOf="@+id/List_fAB_menu"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
         tools:ignore="MissingConstraints" />
 
     <androidx.recyclerview.widget.RecyclerView

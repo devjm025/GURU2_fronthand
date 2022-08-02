@@ -140,23 +140,22 @@ class ShowActivity : AppCompatActivity() {
         })
 
         //날짜
+        str_date = blist!![0].Dday.toString()
+        datetextView.setText(str_date)
         if(blist!![0].Dday.equals("0")){
             radioButton_no.setChecked(true)
+            datetextView.visibility = View.INVISIBLE
         }else{
             radioButton_yes.setChecked(true)
+            datetextView.visibility = View.VISIBLE
         }
-        str_date = blist!![0].Dday.toString()
+
 
         radioGroupdate.setOnCheckedChangeListener { radioGroup, checkedId ->
             when(checkedId){
                 R.id.Show_radioButton_yes ->  {
                     datetextView.visibility = View.VISIBLE
                     val cal = Calendar.getInstance()
-                    val dates = str_date.split(" ")
-                    val year = dates[0].substring(0, dates[0].length).toInt()
-                    val month = dates[1].substring(0, dates[1].length).toInt()
-                    val dayOfMonth = dates[2].substring(0, dates[2].length).toInt()
-
                     val dataSetListener = DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
                         dateString = "${year}년 ${month+1}월 ${dayOfMonth}일"
                         datetextView.text = dateString
@@ -166,7 +165,10 @@ class ShowActivity : AppCompatActivity() {
                         Calendar.DAY_OF_MONTH)).show()
                 }
 
-                R.id.Show_radioButton_no ->  datetextView.visibility = View.INVISIBLE
+                R.id.Show_radioButton_no -> {
+                    datetextView.visibility = View.INVISIBLE
+                    str_date = "0"
+                }
             }
         }
 

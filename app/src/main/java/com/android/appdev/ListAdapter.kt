@@ -55,6 +55,7 @@ class ListAdapter (val db : BucketListDataBase, var items:List<BucketList>?)
 
     }
 
+
     inner class ListViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
 
         var index : Int?=null
